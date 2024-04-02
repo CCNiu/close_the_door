@@ -14,12 +14,15 @@ int numdisplay = 0;
 int dig1 = 0;  
 int dig2 = 0;  
 int dig3 = 0;  
-int dig4 = 0;  
+int dig4 = 0;
+int guilin = 5;  
 
 void setup() {
   Serial.begin(9600);
   tm1637.init();
+  pinMode(guilin,OUTPUT);
   tm1637.set(BRIGHT_TYPICAL);//BRIGHT_TYPICAL = 2,BRIGHT_DARKEST = 0,BRIGHTEST = 7;
+  digitalWrite(guilin,LOW);
 }
 
 void loop() {
@@ -37,10 +40,12 @@ void loop() {
     distance = ultrasonic.read(); //不加參數就是輸出CM，可用read(INC)輸出英寸
   }
   if ( distance < 20){
+    digitalWrite(guilin,LOW);
+    Serial.println("guilin is LOW");
     people_num++;
-    show_num;
+    show_num();
   }
-  c
+
   Serial.print( " Distance in CM: ");
   Serial.println( distance );
 }
@@ -62,5 +67,7 @@ void show_num(){
 }
 void close_the_fucking_door(){
   tone(7 , 3000 , 100);
+  digitalWrite(guilin,HIGH);
+  Serial.println("guilin is high");
   delay(100);
 }
